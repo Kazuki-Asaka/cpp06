@@ -1,4 +1,5 @@
 #include "ScalarConverter.hpp"
+#include <sstream>
 
 bool ScalarConverter::check_int(std::string num) {
 	std::stringstream ss(num);
@@ -14,7 +15,7 @@ bool ScalarConverter::check_int(std::string num) {
 }
 
 bool ScalarConverter::check_char(std::string num) {
-	if (num.size() != 1 || std::isprint(num[0] == 0))//
+	if (num.size() != 1 || std::isdigit(num[0]) != 0)//
 		return (false);
 	else
 		return (true);
@@ -78,10 +79,15 @@ bool ScalarConverter::toChar(std::string num, std::string type) {
 		char c;
 
 		ss >> c;
-		if (ss.fail())
+		if (ss.fail()) {
+			// std::cout << "test" << std::endl;
+			// std::cout <<"'"<<c<<"'"<<std::endl;
 			return (false);
+		}
 		else {
-			std::cout << "char: " << c << std::endl;
+			// std::cout << "test1" << std::endl;
+
+			std::cout << "char: " << "'" << c << "'" << std::endl;
 			return(true);
 		}
 	}
@@ -111,7 +117,7 @@ bool ScalarConverter::toChar(std::string num, std::string type) {
 			}
 		}
 		if (31 < i && i < 127)
-			std::cout << "char: " << static_cast<char>(i) << std::endl;
+			std::cout << "char: " << "'"<< static_cast<char>(i) << "'"<< std::endl;
 		else
 			std::cout << "char: " << "Non displayable" << std::endl;
 		return (true);
@@ -156,19 +162,29 @@ bool ScalarConverter::toFloat(std::string num, std::string type) {
 		return (true);
 	}
 	if (num == "nan" || num == "+nan" ||num == "-nan") {
-		std::cout << "float: " << "nan" << std::endl;
+		std::cout << "float: " << "nanf" << std::endl;
 		return (true);
 	}
 	if (type == TYPE_DOUBLE) {
-		num += "f";
-		std::cout << "float: " << num << std::endl;
+		std::stringstream ss(num);
+		float f;
+		ss >> f;
+		// num += "f";
+		
+		std::ostringstream oss;
+		oss << f;
+		std::string check_dot = oss.str();
+		if (check_dot.find('.') != std::string::npos)
+			std::cout << "float: " << f << "f"<< std::endl;
+		else
+			std::cout << "float: " << f << ".0f"<< std::endl;
 		return (true);
 	}
-	std::stringstream ss(num);
+	std::stringstream ss1(num);
 	float f;
 
-	ss >> f;
-	if (ss.fail() ||!ss.eof()) {
+	ss1 >> f;
+	if (ss1.fail() ||!ss1.eof()) {
 		std::cout << "float: " << "impossible" << std::endl;
 		return (false);
 	}
@@ -190,7 +206,16 @@ bool ScalarConverter::toDouble(std::string num, std::string type) {
 		return (false);
 	}
 	else {
-		std::cout << "double: " << d << std::endl;
+    	std::ostringstream ss1;
+    	std::string check_dot;
+    	ss1 << d;
+		check_dot = ss1.str();
+	// std::cout << "d " << d << std::endl;
+    	if (check_dot.find('.') != std::string::npos)
+    		std::cout << "double: " << d << std::endl;
+    	else
+			std::cout << "double: " << d << ".0"<< std::endl;//
+		// std::cout << "double: " << d << std::endl;//
 		return (true);
 	}
 }
@@ -206,13 +231,22 @@ bool ScalarConverter::convert(char *str) {
 
 	type = check_type(num);
 	if (type == TYPE_NO) {
-		std::cerr << "input is ivalid" << std::endl;
+		std::cerr << "input is invalid" << std::endl;
 		return (false);
 	}
 	else {
 		std::cout << type << std::endl;
+		// if (!toChar(num, type)) 
+		// 	return(false);
+		// if (!toInt(num, type))
+		// 	return(false);
+		// if (!toFloat(num, type))
+		// 	return(false);
+		// if (!toDouble(num, type))
+		// 	return(false);
+
 		toChar(num, type);
-		toInt(num, type);
+	 	toInt(num, type);
 		toFloat(num, type);
 		toDouble(num, type);
 		return (true);
