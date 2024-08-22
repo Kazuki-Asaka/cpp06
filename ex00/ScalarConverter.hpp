@@ -21,10 +21,14 @@ private:
 	static bool check_float(std::string num);
 	static bool check_double(std::string num);
 	static std::string check_type(std::string num);
-	static bool toInt(std::string num, std::string type);
-	static bool toChar(std::string num, std::string type);
-	static bool toFloat(std::string num, std::string type);
-	static bool toDouble(std::string num, std::string type);
+	// static bool toInt(std::string num, std::string type);
+	// static bool toChar(std::string num, std::string type);
+	// static bool toFloat(std::string num, std::string type);
+	// static bool toDouble(std::string num, std::string type);
+	static bool printCharType(std::string num);
+	static bool printIntType(std::string num);
+	static bool printFloatType(std::string num);
+	static bool printDoubleType(std::string num);
 };
 
 #endif
