@@ -29,6 +29,9 @@ private:
 	static bool printIntType(std::string num);
 	static bool printFloatType(std::string num);
 	static bool printDoubleType(std::string num);
+	ScalarConverter(const ScalarConverter& rhs);
+	ScalarConverter& operator=(const ScalarConverter& rhs);
+	~ScalarConverter();
 };
 
 #endif

@@ -36,7 +36,7 @@ int main() {
 	}
 }
 
-__attribute__((destructor))
-static void destructor() {
-	system("leaks -q ex02");
-}
+// __attribute__((destructor))
+// static void destructor() {
+// 	system("leaks -q ex02");
+// }
