@@ -23,7 +23,7 @@ bool ScalarConverter::check_char(std::string num) {
 
 bool ScalarConverter::check_float(std::string num) {
 	if (num[num.length() -1 ] == 'f') {
-		if (num == "inff" || num == "-inff" || num =="+inff")
+		if (num == "inff" || num == "-inff" || num =="+inff" || num == "nanf" ||num == "+nanf" || num == "-nanf" )
 			return (true);
 		else {
 			num.erase(num.length() - 1, 1);
@@ -50,6 +50,8 @@ bool ScalarConverter::check_float(std::string num) {
 }
 
 bool ScalarConverter::check_double(std::string num) {
+	if (num == "inf" || num == "-inf" || num =="+inf" || num == "nan" ||num == "+nan" || num == "-nan" )
+		return (true);
 	std::stringstream ss(num);
 	double	d;
 
@@ -313,9 +315,16 @@ bool ScalarConverter::printFloatType(std::string num) {
 	// std::cout << "f: " << f << std::endl;
 
 	// if ()
-	if (num == "inf" || num == "+inf" || num == "-inf" || num == "nan" || num == "+nan" || num == "-nan") {//inffはfが消されてinfになる
+	if (num == "inf" || num == "+inf" || num == "-inf" || num == "nan" || num == "+nan" || num == "-nan") { //inffはfが消されてinfになる
 		std::cout << "char: " << "impossible" << std::endl;
 		std::cout << "int: " << "impossible" << std::endl;
+		if (num == "+nan" || num == "-nan")
+			num = "nan";
+		if (num == "+inf")
+			num = "inf";
+		std::cout << "float: " << num << "f" << std::endl;
+		std::cout << "double: " << num << std::endl;
+		return (true);
 	}
 	else {
 		// if (0 <= f && f <= 128)
@@ -338,26 +347,26 @@ bool ScalarConverter::printFloatType(std::string num) {
 		int	i;
 		i = static_cast<int>(f);
 		std::cout << "int: " << i << std::endl;
+		std::ostringstream	oss;
+		
+		oss << f;
+		std::string check_dotf(oss.str());
+		if (check_dotf.find(".") != std::string::npos || check_dotf == "inf" || check_dotf == "-inf" || check_dotf == "nan")
+			std::cout << "float: " << f << "f" << std::endl;
+		else
+			std::cout << "float: " << f << ".0f" << std::endl;
+
+		double d = static_cast<double>(f);
+		oss.str("");
+		oss << d;
+		std::string check_dotd(oss.str());
+		if (check_dotd.find(".") != std::string::npos || check_dotd.find("e") != std::string::npos ||check_dotd == "inf" || check_dotd == "-inf" || check_dotd == "nan")
+			std::cout << "double: " << d << std::endl;
+		else
+			std::cout << "double: " << d << ".0" << std::endl;
+
+		return (true);
 	}
-	std::ostringstream	oss;
-	
-	oss << f;
-	std::string check_dotf(oss.str());
-	if (check_dotf.find(".") != std::string::npos || check_dotf == "inf" || check_dotf == "-inf" || check_dotf == "nan")
-		std::cout << "float: " << f << "f" << std::endl;
-	else
-		std::cout << "float: " << f << ".0f" << std::endl;
-
-	double d = static_cast<double>(f);
-	oss.str("");
-	oss << d;
-	if (check_dotf.find(".") != std::string::npos || check_dotf == "inf" || check_dotf == "-inf" || check_dotf == "nan")
-		std::cout << "double: " << d << std::endl;
-	else
-		std::cout << "double: " << d << ".0" << std::endl;
-
-	return (true);
-
 }
 
 bool ScalarConverter::printDoubleType(std::string num) {
@@ -376,6 +385,8 @@ bool ScalarConverter::printDoubleType(std::string num) {
 	if (num == "inf" || num == "+inf" || num == "-inf" || num == "nan" || num == "+nan" || num == "-nan") {//inffはfが消されてinfになる
 		std::cout << "char: " << "impossible" << std::endl;
 		std::cout << "int: " << "impossible" << std::endl;
+
+		return(true);
 	}
 	else {
 		std::stringstream ss1(num);
@@ -396,25 +407,26 @@ bool ScalarConverter::printDoubleType(std::string num) {
 		int	i;
 		i = static_cast<int>(d);
 		std::cout << "int: " << i << std::endl;
-	}
-	std::ostringstream	oss;
-	
-	oss << d;
-	std::string check_dotf(oss.str());
-	float f = static_cast<float>(d);
-	if (check_dotf.find(".") != std::string::npos || check_dotf == "inf" || check_dotf == "-inf" || check_dotf == "nan")
-		std::cout << "float: " << f << "f" << std::endl;
-	else
-		std::cout << "float: " << f << ".0f" << std::endl;
-	
-	oss.str("");
-	oss << d;
-	if (check_dotf.find(".") != std::string::npos || check_dotf == "inf" || check_dotf == "-inf" || check_dotf == "nan")
-		std::cout << "double: " << d << std::endl;
-	else
-		std::cout << "double: " << d << ".0" << std::endl;
+		std::ostringstream	oss;
+		
+		float f = static_cast<float>(d);
+		oss << f;
+		std::string check_dotf(oss.str());
+		if (check_dotf.find(".") != std::string::npos || check_dotf == "inf" || check_dotf == "-inf" || check_dotf == "nan")
+			std::cout << "float: " << f << "f" << std::endl;
+		else
+			std::cout << "float: " << f << ".0f" << std::endl;
+		
+		oss.str("");
+		oss << d;
+		std::string check_dotd(oss.str());
+		if (check_dotd.find(".") != std::string::npos || check_dotd.find("e") != std::string::npos || check_dotd == "inf" || check_dotd == "-inf" || check_dotd == "nan")
+			std::cout << "double: " << d << std::endl;
+		else
+			std::cout << "double: " << d << ".0" << std::endl;
 
-	return (true);
+		return (true);
+	}
 }
 
 bool ScalarConverter::convert(char *str) {
