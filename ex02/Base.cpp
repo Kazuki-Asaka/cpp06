@@ -53,7 +53,7 @@ void identify(Base& p) {
 		// std::cout << "p: " << &p << std::endl;
 		std::cout << "This is " << "A" << " class" << std::endl;
 		return ;
-	} catch (std::bad_cast& e) {
+	} catch (std::exception& e) {
 		
 	}
 	try {
@@ -64,7 +64,7 @@ void identify(Base& p) {
 		std::cout << "This is " << "B" << " class" << std::endl;
 		return ;
 
-	} catch(std::bad_cast& e) {
+	} catch(std::exception& e) {
 
 	}
 	try {
@@ -74,7 +74,7 @@ void identify(Base& p) {
 		(void)c;
 		std::cout << "This is " << "C" << " class" << std::endl;
 		return ;
-	} catch(std::bad_cast& e) {
+	} catch(std::exception& e) {
 
 	}
 	std::cout << "This is " << "No" << " class" << std::endl;

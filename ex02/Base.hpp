@@ -2,6 +2,10 @@
 # define BASE_HPP
 
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
+// #include <exception>
+
 class A;
 class B;
 class C;
