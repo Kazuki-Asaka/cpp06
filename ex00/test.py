@@ -189,3 +189,17 @@ def test_Under_INT_MINd():
 	expected_list = ["char: impossible", "int: -2147483648", "float: -2.14748e+09f", "double: -2.14748e+09"]
 	diff("-2147483648.5",expected_list)
 	
+
+
+def test_error():
+	result = subprocess.run(['./convert', "aaaaaa"], capture_output=True, text=True)
+	assert result.stderr.strip() == "input is invalid"
+
+
+def test_error1():
+	result = subprocess.run(['./convert'], capture_output=True, text=True)
+	assert result.stderr.strip() == "arg is invalid"
+
+def test_error2():
+	result = subprocess.run(['./convert',"42","42"], capture_output=True, text=True)
+	assert result.stderr.strip() == "arg is invalid"
